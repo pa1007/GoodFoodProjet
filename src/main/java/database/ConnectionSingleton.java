@@ -16,7 +16,7 @@ public class ConnectionSingleton {
             c = DriverManager.getConnection(url, "goodFoodAdmin", "as5Y4xSevzVLRFM4");
         }
         catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
