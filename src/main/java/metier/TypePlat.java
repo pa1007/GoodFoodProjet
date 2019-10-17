@@ -1,8 +1,8 @@
 package metier;
 
 public class TypePlat {
-    private int numTypePlat = 0;
-    private String nomTypePlat = "";
+    private int numTypePlat ;
+    private String nomTypePlat ;
 
     public TypePlat(int num, String nom){
         this.numTypePlat = num;
