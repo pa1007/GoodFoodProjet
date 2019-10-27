@@ -1,12 +1,18 @@
 package metier;
 
-public class TypePlat {
-    private int numTypePlat ;
-    private String nomTypePlat ;
+public class TypePlat implements Afficher {
 
-    public TypePlat(int num, String nom){
+    private int    numTypePlat;
+    private String nomTypePlat;
+
+    public TypePlat(int num, String nom) {
         this.numTypePlat = num;
         this.nomTypePlat = nom;
+    }
+
+    @Override
+    public String getAffString() {
+        return getNomTypePlat();
     }
 
     public int getNumTypePlat() {

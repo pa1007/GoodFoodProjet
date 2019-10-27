@@ -1,5 +1,6 @@
 package dao;
 
+import dao.DAO;
 import database.ConnectionSingleton;
 import metier.TypePlat;
 import java.sql.Connection;
@@ -9,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TypePlatDAO {
+public class TypePlatDAO implements DAO<TypePlat, Integer> {
 
     public TypePlatDAO() {
 
@@ -23,7 +24,7 @@ public class TypePlatDAO {
             PreparedStatement ps  = c.prepareStatement("SELECT * from type");
             ResultSet         res = ps.executeQuery();
             while (res.next()) {
-                allPlat.add(new TypePlat(res.getInt("numTypePlat"), res.getString("nomTypePlat")));
+                allPlat.add(new TypePlat(res.getInt("idType"), res.getString("nomType")));
             }
         }
         catch (SQLException e) {
@@ -32,7 +33,7 @@ public class TypePlatDAO {
         return allPlat;
     }
 
-    public TypePlat find(int id) {
+    public TypePlat find(Integer id) {
         ConnectionSingleton cs       = ConnectionSingleton.getInstance();
         Connection          c        = cs.getConnection();
         TypePlat            typePlat = null;

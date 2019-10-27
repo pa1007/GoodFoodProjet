@@ -1,0 +1,41 @@
+package metier;
+
+public class Salle {
+
+    private String numSalle;
+    private String nomSable;
+    private String numRestaurant;
+
+    public Salle(String numSalle, String nomSable, String numRestaurant) {
+        this.numSalle = numSalle;
+        this.nomSable = nomSable;
+        this.numRestaurant = numRestaurant;
+    }
+
+    public String getNumSalle() {
+        return numSalle;
+    }
+
+    public void setNumSalle(String numSalle) {
+        this.numSalle = numSalle;
+    }
+
+
+    public String getNomSable() {
+        return nomSable;
+    }
+
+    public void setNomSable(String nomSable) {
+        this.nomSable = nomSable;
+    }
+
+
+    public String getNumRestaurant() {
+        return numRestaurant;
+    }
+
+    public void setNumRestaurant(String numRestaurant) {
+        this.numRestaurant = numRestaurant;
+    }
+
+}
