@@ -21,7 +21,7 @@ public class TypePlatController {
             List<Afficher> typePlats = d.getAll();
             for (Afficher typePlat : typePlats) {
                 GP_Layout.add(new Label("" + typePlat.getAffString()), 0, typePlats.indexOf(typePlat));
-                GP_Layout.add(new Label(typePlat.getAffString()), 1, typePlats.indexOf(typePlat));
+                GP_Layout.add(new Label(typePlat.getSecondAff()), 1, typePlats.indexOf(typePlat));
             }
         }
     }

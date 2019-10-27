@@ -15,6 +15,11 @@ public class TypePlat implements Afficher {
         return getNomTypePlat();
     }
 
+    @Override
+    public String getSecondAff() {
+        return String.valueOf(getNumTypePlat());
+    }
+
     public int getNumTypePlat() {
         return numTypePlat;
     }
