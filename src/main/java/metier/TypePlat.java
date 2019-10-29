@@ -11,13 +11,17 @@ public class TypePlat implements Afficher {
     }
 
     @Override
-    public String getAffString() {
-        return getNomTypePlat();
-    }
-
-    @Override
-    public String getSecondAff() {
-        return String.valueOf(getNumTypePlat());
+    public String getInfo(String column) {
+        switch (column) {
+            case "numTypePlat":
+                return String.valueOf(numTypePlat);
+            case "nomTypePlat":
+                return nomTypePlat;
+            case "ALL":
+                return this.toString();
+            default:
+                return "not found";
+        }
     }
 
     public int getNumTypePlat() {
@@ -34,5 +38,13 @@ public class TypePlat implements Afficher {
 
     public void setNomTypePlat(String nomTypePlat) {
         this.nomTypePlat = nomTypePlat;
+    }
+
+    @Override
+    public String toString() {
+        return "TypePlat{" +
+               "numTypePlat=" + numTypePlat +
+               ", nomTypePlat='" + nomTypePlat + '\'' +
+               '}';
     }
 }

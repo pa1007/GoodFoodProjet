@@ -1,6 +1,6 @@
 package metier;
 
-public class Salle {
+public class Salle implements Afficher {
 
     private String numSalle;
     private String nomSable;
@@ -12,6 +12,22 @@ public class Salle {
         this.numRestaurant = numRestaurant;
     }
 
+    @Override
+    public String getInfo(String column) {
+        switch (column) {
+            case "numSalle":
+                return numSalle;
+            case "nomSable":
+                return nomSable;
+            case "numRestaurant":
+                return numRestaurant;
+            case "ALL":
+                return this.toString();
+            default:
+                return "not found";
+        }
+    }
+
     public String getNumSalle() {
         return numSalle;
     }
@@ -19,7 +35,6 @@ public class Salle {
     public void setNumSalle(String numSalle) {
         this.numSalle = numSalle;
     }
-
 
     public String getNomSable() {
         return nomSable;
@@ -29,7 +44,6 @@ public class Salle {
         this.nomSable = nomSable;
     }
 
-
     public String getNumRestaurant() {
         return numRestaurant;
     }
@@ -38,4 +52,12 @@ public class Salle {
         this.numRestaurant = numRestaurant;
     }
 
+    @Override
+    public String toString() {
+        return "Salle{" +
+               "numSalle='" + numSalle + '\'' +
+               ", nomSable='" + nomSable + '\'' +
+               ", numRestaurant='" + numRestaurant + '\'' +
+               '}';
+    }
 }

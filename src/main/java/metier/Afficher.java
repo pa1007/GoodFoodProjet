@@ -2,7 +2,5 @@ package metier;
 
 public interface Afficher {
 
-    String getAffString();
-
-    String getSecondAff();
+    String getInfo(String column);
 }

@@ -1,6 +1,6 @@
 package metier;
 
-public class Table {
+public class Table implements Afficher {
 
     private String numTable;
     private long   placeMax;
@@ -12,6 +12,22 @@ public class Table {
         this.numSalle = numSalle;
     }
 
+    @Override
+    public String getInfo(String column) {
+        switch (column) {
+            case "numTable":
+                return numTable;
+            case "placeMax":
+                return String.valueOf(placeMax);
+            case "numSalle":
+                return numSalle;
+            case "ALL":
+                return this.toString();
+            default:
+                return "not found";
+        }
+    }
+
     public String getNumTable() {
         return numTable;
     }
@@ -19,7 +35,6 @@ public class Table {
     public void setNumTable(String numTable) {
         this.numTable = numTable;
     }
-
 
     public long getPlaceMax() {
         return placeMax;
@@ -29,7 +44,6 @@ public class Table {
         this.placeMax = placeMax;
     }
 
-
     public String getNumSalle() {
         return numSalle;
     }
@@ -38,4 +52,12 @@ public class Table {
         this.numSalle = numSalle;
     }
 
+    @Override
+    public String toString() {
+        return "Table{" +
+               "numTable='" + numTable + '\'' +
+               ", placeMax=" + placeMax +
+               ", numSalle='" + numSalle + '\'' +
+               '}';
+    }
 }

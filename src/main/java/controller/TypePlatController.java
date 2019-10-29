@@ -8,6 +8,7 @@ import javafx.scene.layout.GridPane;
 import metier.Afficher;
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class TypePlatController {
 
     @FXML
@@ -20,8 +21,8 @@ public class TypePlatController {
         for (DAO d : daos) {
             List<Afficher> typePlats = d.getAll();
             for (Afficher typePlat : typePlats) {
-                GP_Layout.add(new Label("" + typePlat.getAffString()), 0, typePlats.indexOf(typePlat));
-                GP_Layout.add(new Label(typePlat.getSecondAff()), 1, typePlats.indexOf(typePlat));
+                GP_Layout.add(new Label("" + typePlat.getInfo("ALL")), 0, typePlats.indexOf(typePlat));
+                GP_Layout.add(new Label(typePlat.getInfo("numTypePlat")), 1, typePlats.indexOf(typePlat));
             }
         }
     }

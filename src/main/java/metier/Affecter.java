@@ -2,7 +2,7 @@ package metier;
 
 import java.sql.Date;
 
-public class Affecter {
+public class Affecter implements Afficher {
 
     private long numTab;
     private Date dataff;
@@ -14,6 +14,22 @@ public class Affecter {
         this.numserv = numserv;
     }
 
+    @Override
+    public String getInfo(String column) {
+        switch (column) {
+            case "numTab":
+                return String.valueOf(numTab);
+            case "dataff":
+                return String.valueOf(dataff);
+            case "numserv":
+                return String.valueOf(numserv);
+            case "ALL":
+                return this.toString();
+            default:
+                return "not found";
+        }
+    }
+
     public long getNumTab() {
         return numTab;
     }
@@ -21,7 +37,6 @@ public class Affecter {
     public void setNumTab(long numTab) {
         this.numTab = numTab;
     }
-
 
     public Date getDataff() {
         return dataff;
@@ -31,7 +46,6 @@ public class Affecter {
         this.dataff = dataff;
     }
 
-
     public long getNumserv() {
         return numserv;
     }
@@ -39,5 +53,4 @@ public class Affecter {
     public void setNumserv(long numserv) {
         this.numserv = numserv;
     }
-
 }
