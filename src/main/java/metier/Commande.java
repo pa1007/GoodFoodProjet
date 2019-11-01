@@ -31,27 +31,37 @@ public class Commande implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "numCommande":
-                return numCommande;
-            case "dateCommande":
-                return String.valueOf(dateCommande);
-            case "dateEncaissement":
-                return String.valueOf(dateEncaissement);
-            case "montantTotal":
-                return String.valueOf(montantTotal);
-            case "nbPersonne":
-                return String.valueOf(nbPersonne);
-            case "numTable":
-                return numTable;
-            case "modePaiement":
-                return modePaiement;
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "numCommande":
+                    res.append(numCommande);
+                    break;
+                case "dateCommande":
+                    res.append(dateCommande);
+                    break;
+                case "dateEncaissement":
+                    res.append(dateEncaissement);
+                    break;
+                case "montantTotal":
+                    res.append(montantTotal);
+                    break;
+                case "nbPersonne":
+                    res.append(nbPersonne);
+                    break;
+                case "numTable":
+                    res.append(numTable);
+                    break;
+                case "modePaiement":
+                    res.append(modePaiement);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public String getNumCommande() {

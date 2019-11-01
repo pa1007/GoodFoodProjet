@@ -15,21 +15,28 @@ public class Plat implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "libelle":
-                return libelle;
-            case "idPlat":
-                return String.valueOf(idPlat);
-            case "prix":
-                return String.valueOf(prix);
-            case "numtype":
-                return String.valueOf(numtype);
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "libelle":
+                    res.append(libelle);
+                    break;
+                case "idPlat":
+                    res.append(idPlat);
+                    break;
+                case "prix":
+                    res.append(prix);
+                    break;
+                case "numtype":
+                    res.append(numtype);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public String getLibelle() {

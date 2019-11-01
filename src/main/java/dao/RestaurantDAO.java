@@ -50,7 +50,12 @@ public class RestaurantDAO implements DAO<Restaurant, String> {
     }
 
     @Override
-    public String getPrimary() {
-        return "numRestaurant";
+    public String[] getPrimary() {
+        return new String[]{"numRestaurant"};
+    }
+
+    @Override
+    public String[] getMainAff() {
+        return new String[]{"ALL"};
     }
 }

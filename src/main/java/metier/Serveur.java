@@ -15,21 +15,28 @@ public class Serveur implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "numServeur":
-                return numServeur;
-            case "nom":
-                return nom;
-            case "prenom":
-                return prenom;
-            case "grade":
-                return grade;
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "numServeur":
+                    res.append(numServeur);
+                    break;
+                case "nom":
+                    res.append(nom);
+                    break;
+                case "prenom":
+                    res.append(prenom);
+                    break;
+                case "grade":
+                    res.append(grade);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public String getNumServeur() {

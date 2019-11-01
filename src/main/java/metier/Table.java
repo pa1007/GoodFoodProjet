@@ -13,19 +13,25 @@ public class Table implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "numTable":
-                return numTable;
-            case "placeMax":
-                return String.valueOf(placeMax);
-            case "numSalle":
-                return numSalle;
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "numTable":
+                    res.append(numTable);
+                    break;
+                case "placeMax":
+                    res.append(placeMax);
+                    break;
+                case "numSalle":
+                    res.append(numSalle);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public String getNumTable() {

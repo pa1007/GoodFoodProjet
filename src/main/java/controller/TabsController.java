@@ -25,6 +25,7 @@ public class TabsController {
         for (DAO d : daos) {
             Tab t = new Tab();
             tPane.getTabs().add(t);
+            t.setClosable(false);
             t.setText(d.getClass().getSimpleName().replace("DAO", ""));
             GridPane g  = new GridPane();
             GridPane g2 = new GridPane();
@@ -34,7 +35,7 @@ public class TabsController {
             g.getColumnConstraints().add(new ColumnConstraints(400));
             List<Afficher> typePlats = d.getAll();
             for (Afficher typePlat : typePlats) {
-                g.add(new Label("" + typePlat.getInfo("ALL")), 0, typePlats.indexOf(typePlat));
+                g.add(new Label("" + typePlat.getInfo(d.getMainAff())), 0, typePlats.indexOf(typePlat));
                 g.add(new Label(typePlat.getInfo(d.getPrimary())), 1, typePlats.indexOf(typePlat));
             }
         }

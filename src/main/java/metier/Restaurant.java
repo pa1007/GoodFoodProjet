@@ -11,17 +11,22 @@ public class Restaurant implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "numRestaurant":
-                return numRestaurant;
-            case "nom":
-                return nom;
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "numRestaurant":
+                    res.append(numRestaurant);
+                    break;
+                case "nom":
+                    res.append(nom);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public String getNumRestaurant() {

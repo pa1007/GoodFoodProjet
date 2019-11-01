@@ -9,5 +9,7 @@ public interface DAO<T extends Afficher, K> {
 
     T find(K id);
 
-    String getPrimary();
+    String[] getPrimary();
+
+    String[] getMainAff();
 }

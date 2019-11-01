@@ -15,19 +15,25 @@ public class Affecter implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "numTab":
-                return String.valueOf(numTab);
-            case "dataff":
-                return String.valueOf(dataff);
-            case "numserv":
-                return String.valueOf(numserv);
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "numTab":
+                    res.append(numTab);
+                    break;
+                case "dataff":
+                    res.append(dataff);
+                    break;
+                case "numserv":
+                    res.append(numserv);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public long getNumTab() {

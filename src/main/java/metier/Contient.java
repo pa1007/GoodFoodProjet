@@ -13,19 +13,25 @@ public class Contient implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "numCommande":
-                return numCommande;
-            case "idPlat":
-                return String.valueOf(idPlat);
-            case "quantite":
-                return String.valueOf(quantite);
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "numCommande":
+                    res.append(numCommande);
+                    break;
+                case "idPlat":
+                    res.append(idPlat);
+                    break;
+                case "quantite":
+                    res.append(quantite);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public String getNumCommande() {

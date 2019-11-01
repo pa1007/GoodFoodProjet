@@ -13,19 +13,25 @@ public class Salle implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "numSalle":
-                return numSalle;
-            case "nomSable":
-                return nomSable;
-            case "numRestaurant":
-                return numRestaurant;
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "numSalle":
+                    res.append(numSalle);
+                    break;
+                case "nomSable":
+                    res.append(nomSable);
+                    break;
+                case "numRestaurant":
+                    res.append(numRestaurant);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public String getNumSalle() {

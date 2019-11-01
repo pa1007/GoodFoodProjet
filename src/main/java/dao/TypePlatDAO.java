@@ -1,6 +1,5 @@
 package dao;
 
-import dao.DAO;
 import database.ConnectionSingleton;
 import metier.TypePlat;
 import java.sql.Connection;
@@ -52,8 +51,13 @@ public class TypePlatDAO implements DAO<TypePlat, Integer> {
     }
 
     @Override
-    public String getPrimary() {
-        return "numTypePlat";
+    public String[] getPrimary() {
+        return new String[]{"numTypePlat"};
+    }
+
+    @Override
+    public String[] getMainAff() {
+        return new String[]{"ALL"};
     }
 
 }

@@ -11,17 +11,22 @@ public class TypePlat implements Afficher {
     }
 
     @Override
-    public String getInfo(String column) {
-        switch (column) {
-            case "numTypePlat":
-                return String.valueOf(numTypePlat);
-            case "nomTypePlat":
-                return nomTypePlat;
-            case "ALL":
-                return this.toString();
-            default:
-                return "not found";
+    public String getInfo(String[] column) {
+        StringBuilder res = new StringBuilder();
+        for (String col : column) {
+            switch (col) {
+                case "numTypePlat":
+                    res.append(numTypePlat);
+                    break;
+                case "nomTypePlat":
+                    res.append(nomTypePlat);
+                    break;
+                case "ALL":
+                    return this.toString();
+            }
+            res.append(",");
         }
+        return res.toString();
     }
 
     public int getNumTypePlat() {
