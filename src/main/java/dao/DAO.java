@@ -8,4 +8,6 @@ public interface DAO<T extends Afficher, K> {
     List<T> getAll();
 
     T find(K id);
+
+    String getPrimary();
 }

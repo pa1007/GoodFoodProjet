@@ -51,4 +51,9 @@ public class TypePlatDAO implements DAO<TypePlat, Integer> {
         return typePlat;
     }
 
+    @Override
+    public String getPrimary() {
+        return "numTypePlat";
+    }
+
 }
