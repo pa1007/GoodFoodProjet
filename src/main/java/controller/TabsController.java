@@ -2,6 +2,7 @@ package controller;
 
 import dao.*;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -11,6 +12,7 @@ import metier.Afficher;
 import question.Question;
 import question.Question1;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressWarnings("unchecked")
 public class TabsController {
@@ -46,17 +48,19 @@ public class TabsController {
             tPane.getTabs().add(t);
             t.setClosable(false);
             t.setText(q.getClass().getCanonicalName());
-            GridPane g  = new GridPane();
-            GridPane g2 = new GridPane();
-            g.add(g2, 0, 0);
+
+            GridPane g = new GridPane();
             g.setVgap(12);
             t.setContent(g);
             g.getColumnConstraints().add(new ColumnConstraints(400));
-            List<Afficher> rep = q.getInfos();
-            for (Afficher typePlat : rep) {
-                g.add(new Label("" + typePlat.getInfo(q.getMainAff())), 0, rep.indexOf(typePlat));
-                g.add(new Label(typePlat.getInfo(q.getPrimary())), 1, rep.indexOf(typePlat));
+            int i = 0;
+            for (Node c : q.waitInfo()) {
+                g.add(c, 0, i);
+                i++;
             }
+
+            g.add(q.ask(g, new AtomicInteger(i+1)), 0, i++);
+
         }
     }
 }

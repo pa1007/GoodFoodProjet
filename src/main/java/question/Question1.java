@@ -1,44 +1,58 @@
 package question;
 
 import database.ConnectionSingleton;
-import metier.Afficher;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 import metier.Plat;
-import metier.TypePlat;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public class Question1 implements Question<Plat> {
+public class Question1 implements Question {
+
+    private DatePicker jtextArea;
+    private Button     jButon;
+    private DatePicker jtextArea2;
 
     @Override
-    public String[] getMainAff() {
-        return new String[]{"libelle"};
+    public Node[] waitInfo() {
+        this.jtextArea = new DatePicker();
+        this.jtextArea2 = new DatePicker();
+        return new Node[]{jtextArea, jtextArea2};
     }
 
     @Override
-    public String[] getPrimary() {
-        return new String[]{"idPlat"};
+    public Button ask(GridPane g, AtomicInteger start) {
+        jButon = new Button("Valider");
+        jButon.setOnAction(e -> {
+            if (!jtextArea.getEditor().getText().isEmpty() && !jtextArea2.getEditor().getText().isEmpty()) {
+                g.getColumnConstraints().add(new ColumnConstraints(400));
+                List<Plat> rep = getAll(Date.valueOf(jtextArea.getValue()), Date.valueOf(jtextArea2.getValue()));
+                for (Plat typePlat : rep) {
+                    g.add(new Label("" + typePlat.getInfo(new String[]{"libelle"})), 0, start.get());
+                    g.add(new Label(typePlat.getInfo(new String[]{"idPlat"})), 1, start.getAndIncrement());
+                }
+            }
+        });
+        return jButon;
     }
 
-    @Override
-    public List<Plat> getInfos() {
-        return getAll();
-    }
-
-    public static List<Plat> getAll() {
-        ConnectionSingleton cs        = ConnectionSingleton.getInstance();
-        Connection          c         = cs.getConnection();
-        List<Plat>      plats = new ArrayList<>();
+    public static List<Plat> getAll(Date dateF, Date dateT) {
+        ConnectionSingleton cs    = ConnectionSingleton.getInstance();
+        Connection          c     = cs.getConnection();
+        List<Plat>          plats = new ArrayList<>();
         try {
-            PreparedStatement ps  = c.prepareStatement(
-                    "SELECT NumCommande FROM Commande where DATEDIFF(str_TO_DATE(?,\"%Y-%m-%d\"),dateCommande) < 0 AND DATEDIFF(dateCommande,STR_TO_DATE(?,\"%Y-%m-%d\")) < 0");
+            PreparedStatement ps = c.prepareStatement(
+                    "SELECT NumCommande FROM Commande where DATEDIFF(?,dateCommande) < 0 AND DATEDIFF(dateCommande,?) < 0");
             PreparedStatement ps2 = c.prepareStatement("SELECT distinct idPlat From contient where NumCommande = ?");
             PreparedStatement ps3 = c.prepareStatement("SELECT distinct libelle From Plat where idPlat = ?");
-            ps.setString(1, "2014-01-09");
-            ps.setString(2, "2020-01-09");
+            ps.setDate(1, dateF);
+            ps.setDate(2, dateT);
             ResultSet res = ps.executeQuery();
 
             while (res.next()) {
@@ -51,7 +65,7 @@ public class Question1 implements Question<Plat> {
                     ResultSet res3 = ps3.executeQuery();
 
                     while (res3.next()) {
-                        plats.add(new Plat(res3.getString(1),id,0,0));
+                        plats.add(new Plat(res3.getString(1), id, 0, 0));
                     }
                 }
             }

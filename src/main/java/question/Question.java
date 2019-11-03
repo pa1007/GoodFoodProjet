@@ -1,13 +1,13 @@
 package question;
 
-import metier.Afficher;
-import java.util.List;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
+import java.util.concurrent.atomic.AtomicInteger;
 
-public interface Question<T extends Afficher> {
+public interface Question {
 
-    String[] getMainAff();
+    Node[] waitInfo();
 
-    String[] getPrimary();
-
-    List<T> getInfos();
+    Button ask(GridPane t, AtomicInteger start);
 }
