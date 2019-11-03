@@ -44,7 +44,8 @@ public class CommandeDAO implements DAO<Commande, String> {
         Commande            commande = null;
         try {
             PreparedStatement ps =
-                    c.prepareStatement("SELECT numTab,numserv,dataff FROM affecter WHERE numTab=?");
+                    c.prepareStatement(
+                            "SELECT NumCommande, dateCommande, dateEncaissement, MontantTotal, NbPersonne, numTable, modePaiement FROM Commande WHERE NumCommande=?");
             ps.setString(1, id);
             ResultSet res = ps.executeQuery();
             if (res.first()) {

@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import metier.Afficher;
 import question.Question;
 import question.Question1;
+import question.Question6;
 import question.Question2;
 import question.Question3;
 
@@ -44,7 +45,7 @@ public class TabsController {
                 g.add(new Label(typePlat.getInfo(d.getPrimary())), 1, typePlats.indexOf(typePlat));
             }
         }
-        questions = new Question[]{new Question1(),new Question2(),new Question3()};
+        questions = new Question[]{new Question1(),new Question2(),new Question3(),new Question6()};
         for (Question q : questions) {
             Tab t = new Tab();
             tPane.getTabs().add(t);
