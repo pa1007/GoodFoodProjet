@@ -65,6 +65,7 @@ public class Question3 implements Question {
                     String numS = res2.getString(1);
                     ps3.setString(1,numS);
 
+                    // Verification si le serveur est pas deja ajoute
                     if(serveurs.size() > 0){
                         for(Serveur p : serveurs){
                             if(p.getNumServeur().equals(numS)){
