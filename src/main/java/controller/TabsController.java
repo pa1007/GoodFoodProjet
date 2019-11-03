@@ -12,7 +12,6 @@ import metier.Afficher;
 import question.Question;
 import question.Question1;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @SuppressWarnings("unchecked")
 public class TabsController {
@@ -47,7 +46,7 @@ public class TabsController {
             Tab t = new Tab();
             tPane.getTabs().add(t);
             t.setClosable(false);
-            t.setText(q.getClass().getCanonicalName());
+            t.setText(q.getClass().getSimpleName());
 
             GridPane g = new GridPane();
             g.setVgap(12);
@@ -59,7 +58,7 @@ public class TabsController {
                 i++;
             }
 
-            g.add(q.ask(g, new AtomicInteger(i+1)), 0, i++);
+            g.add(q.ask(g, i + 1), 0, i++);
 
         }
     }

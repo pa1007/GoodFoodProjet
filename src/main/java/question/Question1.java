@@ -27,15 +27,16 @@ public class Question1 implements Question {
     }
 
     @Override
-    public Button ask(GridPane g, AtomicInteger start) {
+    public Button ask(GridPane g, int start) {
         jButon = new Button("Valider");
+        AtomicInteger nb = new AtomicInteger(start);
         jButon.setOnAction(e -> {
             if (!jtextArea.getEditor().getText().isEmpty() && !jtextArea2.getEditor().getText().isEmpty()) {
                 g.getColumnConstraints().add(new ColumnConstraints(400));
                 List<Plat> rep = getAll(Date.valueOf(jtextArea.getValue()), Date.valueOf(jtextArea2.getValue()));
                 for (Plat typePlat : rep) {
-                    g.add(new Label("" + typePlat.getInfo(new String[]{"libelle"})), 0, start.get());
-                    g.add(new Label(typePlat.getInfo(new String[]{"idPlat"})), 1, start.getAndIncrement());
+                    g.add(new Label("" + typePlat.getInfo(new String[]{"libelle"})), 0, nb.get());
+                    g.add(new Label(typePlat.getInfo(new String[]{"idPlat"})), 1, nb.getAndIncrement());
                 }
             }
         });
