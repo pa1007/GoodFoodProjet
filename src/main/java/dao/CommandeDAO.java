@@ -17,7 +17,7 @@ public class CommandeDAO implements DAO<Commande, String> {
         Connection          c         = cs.getConnection();
         List<Commande>      commandes = new ArrayList<>();
         try {
-            PreparedStatement ps  = c.prepareStatement("SELECT * from affecter");
+            PreparedStatement ps  = c.prepareStatement("SELECT * from Commande");
             ResultSet         res = ps.executeQuery();
             while (res.next()) {
                 commandes.add(new Commande(
@@ -67,11 +67,11 @@ public class CommandeDAO implements DAO<Commande, String> {
 
     @Override
     public String[] getPrimary() {
-        return new String[]{"NumCommande"};
+        return new String[]{"numCommande"};
     }
 
     @Override
     public String[] getMainAff() {
-        return new String[]{"dateComande", "NbPersonne", "numTable"};
+        return new String[]{"dateCommande", "NbPersonne", "numTable"};
     }
 }

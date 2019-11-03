@@ -57,7 +57,7 @@ public class TypePlatDAO implements DAO<TypePlat, Integer> {
 
     @Override
     public String[] getMainAff() {
-        return new String[]{"ALL"};
+        return new String[]{"nomTypePlat"};
     }
 
 }
