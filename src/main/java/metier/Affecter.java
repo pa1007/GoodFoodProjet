@@ -59,4 +59,13 @@ public class Affecter implements Afficher {
     public void setNumserv(long numserv) {
         this.numserv = numserv;
     }
+
+    @Override
+    public String toString() {
+        return "Affecter{" +
+               "numTab=" + numTab +
+               ", dataff=" + dataff +
+               ", numserv=" + numserv +
+               '}';
+    }
 }

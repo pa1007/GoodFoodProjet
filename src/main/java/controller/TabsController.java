@@ -1,5 +1,6 @@
 package controller;
 
+import dao.AffecterDAO;
 import dao.DAO;
 import dao.RestaurantDAO;
 import dao.TypePlatDAO;
@@ -21,7 +22,7 @@ public class TabsController {
 
     @FXML
     private void initialize() {
-        daos = new DAO[]{new TypePlatDAO(), new RestaurantDAO()};
+        daos = new DAO[]{new TypePlatDAO(), new RestaurantDAO(), new AffecterDAO()};
         for (DAO d : daos) {
             Tab t = new Tab();
             tPane.getTabs().add(t);
