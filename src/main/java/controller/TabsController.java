@@ -11,6 +11,9 @@ import javafx.scene.layout.GridPane;
 import metier.Afficher;
 import question.Question;
 import question.Question1;
+import question.Question2;
+import question.Question3;
+
 import java.util.List;
 
 @SuppressWarnings("unchecked")
@@ -41,7 +44,7 @@ public class TabsController {
                 g.add(new Label(typePlat.getInfo(d.getPrimary())), 1, typePlats.indexOf(typePlat));
             }
         }
-        questions = new Question[]{new Question1()};
+        questions = new Question[]{new Question1(),new Question2(),new Question3()};
         for (Question q : questions) {
             Tab t = new Tab();
             tPane.getTabs().add(t);

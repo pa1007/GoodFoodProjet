@@ -7,13 +7,14 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import metier.Plat;
+import metier.Serveur;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Question1 implements Question {
+public class Question3 implements Question {
 
     private DatePicker jtextArea;
     private Button     jButon;
@@ -33,24 +34,25 @@ public class Question1 implements Question {
         jButon.setOnAction(e -> {
             if (!jtextArea.getEditor().getText().isEmpty() && !jtextArea2.getEditor().getText().isEmpty()) {
                 g.getColumnConstraints().add(new ColumnConstraints(400));
-                List<Plat> rep = getAll(Date.valueOf(jtextArea.getValue()), Date.valueOf(jtextArea2.getValue()));
-                for (Plat typePlat : rep) {
-                    g.add(new Label("" + typePlat.getInfo(new String[]{"libelle"})), 0, nb.get());
-                    g.add(new Label(typePlat.getInfo(new String[]{"idPlat"})), 1, nb.getAndIncrement());
+                List<Serveur> rep = getAll(Date.valueOf(jtextArea.getValue()), Date.valueOf(jtextArea2.getValue()));
+                for (Serveur serveur : rep) {
+                    g.add(new Label("" + serveur.getInfo(new String[]{"numServeur"})), 0, nb.get());
+                    g.add(new Label(serveur.getInfo(new String[]{"nom"})), 1, nb.getAndIncrement());
                 }
             }
         });
         return jButon;
     }
 
-    public static List<Plat> getAll(Date dateF, Date dateT) {
+    public static List<Serveur> getAll(Date dateF, Date dateT) {
         ConnectionSingleton cs    = ConnectionSingleton.getInstance();
         Connection          c     = cs.getConnection();
-        List<Plat>          plats = new ArrayList<>();
+        List<Serveur>          serveurs = new ArrayList<>();
+        new Question1();
         try {
-            PreparedStatement ps = c.prepareStatement("SELECT NumCommande FROM Commande where DATEDIFF(?,dateCommande) < 0 AND DATEDIFF(dateCommande,?) < 0");
-            PreparedStatement ps2 = c.prepareStatement("SELECT distinct idPlat From contient where NumCommande = ?");
-            PreparedStatement ps3 = c.prepareStatement("SELECT distinct libelle From Plat where idPlat = ?");
+            PreparedStatement ps = c.prepareStatement("SELECT numTable FROM Commande where DATEDIFF(?,dateCommande) < 0 AND DATEDIFF(dateCommande,?) < 0");
+            PreparedStatement ps2 = c.prepareStatement("SELECT distinct numserv From affecter where numTab = ?");
+            PreparedStatement ps3 = c.prepareStatement("SELECT distinct nom From Serveur where numServeur = ?");
             ps.setDate(1, dateF);
             ps.setDate(2, dateT);
             ResultSet res = ps.executeQuery();
@@ -60,19 +62,21 @@ public class Question1 implements Question {
                 ResultSet res2 = ps2.executeQuery();
 
                 while (res2.next()) {
-                    int id = res2.getInt(1);
-                    ps3.setInt(1, res2.getInt(1));
-                    if(plats.size() > 0){
-                        for(Plat p : plats){
-                            if(p.getIdPlat() == id){
-                                ps3.setInt(1, -1);
+                    String numS = res2.getString(1);
+                    ps3.setString(1,numS);
+
+                    if(serveurs.size() > 0){
+                        for(Serveur p : serveurs){
+                            if(p.getNumServeur().equals(numS)){
+                                ps3.setString(1,"-1");
                             }
                         }
                     }
 
                     ResultSet res3 = ps3.executeQuery();
                     while (res3.next()) {
-                        plats.add(new Plat(res3.getString(1), id, 0, 0));
+                        String nom = res3.getString(1);
+                        serveurs.add(new Serveur(numS, nom, "x", "x"));
                     }
                 }
             }
@@ -80,6 +84,6 @@ public class Question1 implements Question {
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return plats;
+        return serveurs;
     }
 }

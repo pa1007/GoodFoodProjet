@@ -8,12 +8,13 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import metier.Plat;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Question1 implements Question {
+public class Question2 implements Question {
 
     private DatePicker jtextArea;
     private Button     jButon;
@@ -47,8 +48,10 @@ public class Question1 implements Question {
         ConnectionSingleton cs    = ConnectionSingleton.getInstance();
         Connection          c     = cs.getConnection();
         List<Plat>          plats = new ArrayList<>();
+        new Question1();
+        List<Plat>          platsPeriode = Question1.getAll(dateF,dateT);
         try {
-            PreparedStatement ps = c.prepareStatement("SELECT NumCommande FROM Commande where DATEDIFF(?,dateCommande) < 0 AND DATEDIFF(dateCommande,?) < 0");
+            PreparedStatement ps = c.prepareStatement("SELECT NumCommande FROM Commande where DATEDIFF(?,dateCommande) >= 0 OR DATEDIFF(dateCommande,?) >= 0");
             PreparedStatement ps2 = c.prepareStatement("SELECT distinct idPlat From contient where NumCommande = ?");
             PreparedStatement ps3 = c.prepareStatement("SELECT distinct libelle From Plat where idPlat = ?");
             ps.setDate(1, dateF);
@@ -62,6 +65,7 @@ public class Question1 implements Question {
                 while (res2.next()) {
                     int id = res2.getInt(1);
                     ps3.setInt(1, res2.getInt(1));
+                    // Verification si le plat a deja ete commande
                     if(plats.size() > 0){
                         for(Plat p : plats){
                             if(p.getIdPlat() == id){
@@ -69,7 +73,14 @@ public class Question1 implements Question {
                             }
                         }
                     }
-
+                    // Verification si le plat a ete commande pendant la periode
+                    if(platsPeriode.size() > 0){
+                        for(Plat p : platsPeriode){
+                            if(p.getIdPlat() == id){
+                                ps3.setInt(1, -1);
+                            }
+                        }
+                    }
                     ResultSet res3 = ps3.executeQuery();
                     while (res3.next()) {
                         plats.add(new Plat(res3.getString(1), id, 0, 0));
