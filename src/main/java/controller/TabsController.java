@@ -9,12 +9,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import metier.Afficher;
-import question.Question;
-import question.Question1;
-import question.Question6;
-import question.Question2;
-import question.Question3;
-
+import question.*;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
@@ -27,7 +22,17 @@ public class TabsController {
 
     @FXML
     private void initialize() {
-        daos = new DAO[]{new TypePlatDAO(), new RestaurantDAO(), new AffecterDAO(), new CommandeDAO()};
+        daos = new DAO[]{
+                new TypePlatDAO(),
+                new RestaurantDAO(),
+                new AffecterDAO(),
+                new CommandeDAO(),
+                new ContientDAO(),
+                new PlatDAO(),
+                new SalleDAO(),
+                new ServeurDAO(),
+                new TableDAO()
+        };
         for (DAO d : daos) {
             Tab t = new Tab();
             tPane.getTabs().add(t);
@@ -45,7 +50,7 @@ public class TabsController {
                 g.add(new Label(typePlat.getInfo(d.getPrimary())), 1, typePlats.indexOf(typePlat));
             }
         }
-        questions = new Question[]{new Question1(),new Question2(),new Question3(),new Question6()};
+        questions = new Question[]{new Question1(), new Question2(), new Question3(), new Question6()};
         for (Question q : questions) {
             Tab t = new Tab();
             tPane.getTabs().add(t);
