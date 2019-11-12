@@ -50,7 +50,7 @@ public class TabsController {
                 g.add(new Label(typePlat.getInfo(d.getPrimary())), 1, typePlats.indexOf(typePlat));
             }
         }
-        questions = new Question[]{new Question1(), new Question2(), new Question3(), new Question6()};
+        questions = new Question[]{new Question1(), new Question2(), new Question3(),new Question4(), new Question6()};
         for (Question q : questions) {
             Tab t = new Tab();
             tPane.getTabs().add(t);
