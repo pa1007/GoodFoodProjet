@@ -11,7 +11,6 @@ import metier.Serveur;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Question4 implements Question {
@@ -52,52 +51,21 @@ public class Question4 implements Question {
         ArrayList<String> listNom = new ArrayList<>();
         new Question1();
         try {
-            PreparedStatement ps = c.prepareStatement("SELECT numTable FROM Commande where DATEDIFF(?,dateCommande) < 0 AND DATEDIFF(dateCommande,?) < 0");
-            PreparedStatement ps2 = c.prepareStatement("SELECT numserv From affecter where numTab = ?");
-            PreparedStatement ps3 = c.prepareStatement("SELECT nom From Serveur where numServeur = ?");
-            PreparedStatement ps4 = c.prepareStatement("SELECT count(*), Sum(MontantTotal) as somme, nom From Serveur inner join affecter inner join Commande where nom = ? and DATEDIFF(?,dateCommande) < 0 AND DATEDIFF(dateCommande,?) < 0 and MontantTotal > 0 order by somme ASC");
-            ps.setDate(1, dateF);
-            ps.setDate(2, dateT);
-            ResultSet res = ps.executeQuery();
+            PreparedStatement ps1 = c.prepareStatement("SELECT count(*), sum(MontantTotal) as x, nom From Serveur inner join affecter on numServeur = numserv inner join Commande " +
+                    " on numTable = numTab where dateCommande between ? and ? group by nom having sum(MontantTotal) > 0 order by x");
+            ps1.setDate(1, dateF);
+            ps1.setDate(2, dateT);
+            ResultSet res = ps1.executeQuery();
 
             while (res.next()) {
-                ps2.setString(1, res.getString(1));
-                ResultSet res2 = ps2.executeQuery();
-
-                while (res2.next()) {
-                    String numS = res2.getString(1);
-                    ps3.setString(1, numS);
-
-                    ResultSet res3 = ps3.executeQuery();
-                    while (res3.next()) {
-                        String nom = res3.getString(1);
-
-                        if(!listNom.contains(nom)){
-                            listNom.add(nom);
-                        }else{
-                            nom = "nada";
-                        }
-
-                        ps4.setString(1, nom);
-                        ps4.setDate(2, dateF);
-                        ps4.setDate(3, dateT);
-                        ResultSet res4 = ps4.executeQuery();
-
-                        while (res4.next()) {
-                            int nbR = res4.getInt(1);
-                            int chiffreA = res4.getInt(2);
-                            Serveur s = new Serveur("x",res4.getString(3),"x","x");
-                            if(nbR > 0) {
-                                resultat.put(s, new ArrayList<Integer>() {{
-                                    add(nbR);
-                                    add(chiffreA);
-                                }});
-                            }
-                        }
-                    }
+                int nbR = res.getInt(1);
+                int chiffreA = res.getInt(2);
+                Serveur s = new Serveur("x",res.getString(3),"x","x");
+                    resultat.put(s, new ArrayList<Integer>() {{
+                        add(nbR);
+                        add(chiffreA);
+                    }});
                 }
-            }
-            c.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

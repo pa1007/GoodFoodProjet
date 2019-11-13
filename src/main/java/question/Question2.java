@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import metier.Plat;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +35,8 @@ public class Question2 implements Question {
                 g.getColumnConstraints().add(new ColumnConstraints(400));
                 List<Plat> rep = getAll(Date.valueOf(jtextArea.getValue()), Date.valueOf(jtextArea2.getValue()));
                 for (Plat typePlat : rep) {
-                    g.add(new Label("" + typePlat.getInfo(new String[]{"libelle"})), 0, nb.get());
-                    g.add(new Label(typePlat.getInfo(new String[]{"idPlat"})), 1, nb.getAndIncrement());
+                    g.add(new Label( "" + typePlat.getInfo(new String[]{"idPlat"})), 1, nb.get());
+                    g.add(new Label("" + typePlat.getInfo(new String[]{"libelle"})), 0, nb.getAndIncrement());
                 }
             }
         });
@@ -47,44 +46,20 @@ public class Question2 implements Question {
     public static List<Plat> getAll(Date dateF, Date dateT) {
         ConnectionSingleton cs    = ConnectionSingleton.getInstance();
         Connection          c     = cs.getConnection();
+        List<Integer> listID = new ArrayList<>();
         List<Plat>          plats = new ArrayList<>();
-        new Question1();
-        List<Plat>          platsPeriode = Question1.getAll(dateF,dateT);
         try {
-            PreparedStatement ps = c.prepareStatement("SELECT NumCommande FROM Commande where DATEDIFF(?,dateCommande) >= 0 OR DATEDIFF(dateCommande,?) >= 0");
-            PreparedStatement ps2 = c.prepareStatement("SELECT distinct idPlat From contient where NumCommande = ?");
-            PreparedStatement ps3 = c.prepareStatement("SELECT distinct libelle From Plat where idPlat = ?");
+            PreparedStatement ps = c.prepareStatement("SELECT idPlat , libelle FROM Plat where idPlat " +
+                    "NOT IN(SELECT P.idPlat FROM Commande C inner join contient on C.NumCommande = contient.NumCommande inner join Plat P on" +
+                    " contient.idPlat = P.idPlat where DATEDIFF(?,dateCommande) < 0 AND DATEDIFF(dateCommande,?) < 0)");
             ps.setDate(1, dateF);
             ps.setDate(2, dateT);
             ResultSet res = ps.executeQuery();
 
             while (res.next()) {
-                ps2.setString(1, res.getString(1));
-                ResultSet res2 = ps2.executeQuery();
-
-                while (res2.next()) {
-                    int id = res2.getInt(1);
-                    ps3.setInt(1, res2.getInt(1));
-                    // Verification si le plat a deja ete commande
-                    if(plats.size() > 0){
-                        for(Plat p : plats){
-                            if(p.getIdPlat() == id){
-                                ps3.setInt(1, -1);
-                            }
-                        }
-                    }
-                    // Verification si le plat a ete commande pendant la periode
-                    if(platsPeriode.size() > 0){
-                        for(Plat p : platsPeriode){
-                            if(p.getIdPlat() == id){
-                                ps3.setInt(1, -1);
-                            }
-                        }
-                    }
-                    ResultSet res3 = ps3.executeQuery();
-                    while (res3.next()) {
-                        plats.add(new Plat(res3.getString(1), id, 0, 0));
-                    }
+                if(!listID.contains(res.getInt(1))) {
+                    listID.add(res.getInt(1));
+                    plats.add(new Plat(res.getString(2), res.getInt(1), 0, 0));
                 }
             }
         }
