@@ -51,8 +51,8 @@ public class Question4 implements Question {
         ArrayList<String> listNom = new ArrayList<>();
         new Question1();
         try {
-            PreparedStatement ps1 = c.prepareStatement("SELECT count(numTable), sum(MontantTotal) as x, nom From Serveur inner join affecter on numServeur = numserv inner join Commande " +
-                    " on numTable = numTab where dateCommande between ? and ? group by nom having sum(MontantTotal) > 0 order by x");
+            PreparedStatement ps1 = c.prepareStatement("SELECT count(distinct NumCommande), sum(MontantTotal) as x, nom , numServeur From Serveur inner join affecter on numServeur = numserv inner join Commande " +
+                    " on numTable = numTab where dateCommande between ? and ? group by numServeur having sum(MontantTotal) > 0 order by x");
             ps1.setDate(1, dateF);
             ps1.setDate(2, dateT);
             ResultSet res = ps1.executeQuery();
