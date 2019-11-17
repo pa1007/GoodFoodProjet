@@ -47,10 +47,11 @@ public class Question3 implements Question {
         ConnectionSingleton cs = ConnectionSingleton.getInstance();
         Connection c = cs.getConnection();
         HashMap<Serveur,String> serveurs = new HashMap<>();
-        HashMap<String,String> verification = new HashMap<>();
         new Question1();
         try {
-            PreparedStatement ps = c.prepareStatement("SELECT nom, dataff FROM Commande inner join affecter on numTable = numTab inner join Serveur on numserv = numServeur where numTable = ? and DATEDIFF(?,dateCommande) < 0 AND DATEDIFF(dateCommande,?) < 0");
+            PreparedStatement ps = c.prepareStatement("SELECT nom, affecter.dataff FROM Commande inner join affecter on numTable = numTab" +
+                    " inner join Serveur on numserv = numServeur where numTable = ? and DATEDIFF(?,dateCommande) < 0 AND " +
+                    "DATEDIFF(dateCommande,?) < 0 group by affecter.dataff");
             ps.setInt(1,10);
             ps.setDate(2, dateF);
             ps.setDate(3, dateT);
@@ -60,14 +61,7 @@ public class Question3 implements Question {
                 while (res.next()) {
                     String nom = res.getString(1);
                     String date = res.getString(2);
-
-                    if(!verification.containsKey(nom)) {
-                        verification.put(nom,date);
-                        serveurs.put(new Serveur("x", nom, "x", "x"), date);
-                    }else if(!verification.get(nom).equals(date)){
-                        verification.put(nom,date);
-                        serveurs.put(new Serveur("x", nom, "x", "x"), date);
-                    }
+                    serveurs.put(new Serveur("x", nom, "x", "x"), date);
                 }
             }
         }
