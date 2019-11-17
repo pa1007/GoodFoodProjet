@@ -3,6 +3,7 @@ package controller;
 import dao.*;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -50,7 +51,15 @@ public class TabsController {
                 g.add(new Label(typePlat.getInfo(d.getPrimary())), 1, typePlats.indexOf(typePlat));
             }
         }
-        questions = new Question[]{new Question1(), new Question2(), new Question3(),new Question4(),new Question5(),new Question6()};
+        questions = new Question[]{
+                new Question1(),
+                new Question2(),
+                new Question3(),
+                new Question4(),
+                new Question5(),
+                new Question6(),
+                new Question7()
+        };
         for (Question q : questions) {
             Tab t = new Tab();
             tPane.getTabs().add(t);
@@ -60,14 +69,17 @@ public class TabsController {
             GridPane g = new GridPane();
             g.setVgap(12);
             t.setContent(g);
-            g.getColumnConstraints().add(new ColumnConstraints(400));
+            g.getColumnConstraints().add(new ColumnConstraints(600));
             int i = 0;
             for (Node c : q.waitInfo()) {
                 g.add(c, 0, i);
                 i++;
             }
 
-            g.add(q.ask(g, i + 1), 0, i++);
+            Button ask = q.ask(g, i + 1);
+            if (ask != null) {
+                g.add(ask, 0, i++);
+            }
 
         }
     }
